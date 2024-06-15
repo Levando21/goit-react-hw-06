@@ -1,35 +1,66 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+/** @format */
+
+import { useSelector, useDispatch } from "react-redux";
+import { useId } from "react";
+import ContactForm from "./components/ContactForm";
+import ContactList from "./components/ContactList";
+import SearchBox from "./components/SearchBox";
+import {
+	addContact,
+	deleteContact,
+} from "../src/redux/contactsSlice/contactsSlice";
+import { setFilter } from "../src/redux/filtersSlice/filtersSlice";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+	const contacts = useSelector((state) => state.contacts.items);
+	const filter = useSelector((state) => state.filters.name);
+	const dispatch = useDispatch();
+	const newId = useId();
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+	const handleDelete = (id) => {
+		dispatch(deleteContact(id));
+	};
+
+	const handleSubmit = (values, { resetForm }) => {
+		dispatch(
+			addContact({
+				id: newId + "-" + Date.now(),
+				name: values.name,
+				number: values.number,
+			})
+		);
+		resetForm();
+	};
+
+	const handleChange = (evt) => {
+		dispatch(setFilter(evt.target.value));
+	};
+
+	const searchContact = (query) => {
+		return contacts.filter(
+			(contact) =>
+				contact.name.toLowerCase().includes(query.toLowerCase()) ||
+				contact.number.toLowerCase().includes(query.toLowerCase())
+		);
+	};
+
+	const filteredContacts = searchContact(filter);
+
+	return (
+		<>
+			<h1>Phonebook</h1>
+			<ContactForm
+				id={newId}
+				handleSubmit={handleSubmit}
+			/>
+			<SearchBox onChange={handleChange} />
+			<ContactList
+				contacts={filteredContacts}
+				onDelete={handleDelete}
+			/>
+		</>
+	);
 }
 
-export default App
+export default App;
