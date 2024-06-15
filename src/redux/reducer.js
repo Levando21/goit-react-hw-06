@@ -1,7 +1,7 @@
 /** @format */
 
-import { ADD_CONTACT, DELETE_CONTACT } from "../contactsSlice/contactsSlice";
-import { SET_FILTER } from "../filtersSlice/filtersSlice";
+import { ADD_CONTACT, DELETE_CONTACT } from "./contactsSlice";
+import { SET_FILTER } from "./filtersSlice";
 
 const initialState = {
 	contacts: {

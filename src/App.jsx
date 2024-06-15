@@ -5,11 +5,8 @@ import { useId } from "react";
 import ContactForm from "./components/ContactForm";
 import ContactList from "./components/ContactList";
 import SearchBox from "./components/SearchBox";
-import {
-	addContact,
-	deleteContact,
-} from "../src/redux/contactsSlice/contactsSlice";
-import { setFilter } from "../src/redux/filtersSlice/filtersSlice";
+import { addContact, deleteContact } from "./redux/contactsSlice";
+import { setFilter } from "./redux/filtersSlice";
 import "./App.css";
 
 function App() {
