@@ -1,10 +1,14 @@
 /** @format */
 
-import { createStore } from "redux";
-import { composeWithDevTools } from "@redux-devtools/extension";
-import reducer from "./reducer";
+import { configureStore } from "@reduxjs/toolkit";
+import contactsReducer from "./contactsSlice";
+import filtersReducer from "./filtersSlice";
 
-const store = createStore(reducer, composeWithDevTools());
+export const store = configureStore({
+	reducer: {
+		contacts: contactsReducer,
+		filters: filtersReducer,
+	},
+});
 
 export default store;
-/////// Для кожного айтему, стану ми будемо створвати ключі

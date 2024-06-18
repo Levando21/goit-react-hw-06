@@ -7,6 +7,7 @@ import ContactList from "./components/ContactList";
 import SearchBox from "./components/SearchBox";
 import { addContact, deleteContact } from "./redux/contactsSlice";
 import { setFilter } from "./redux/filtersSlice";
+import { v4 as uuidv4 } from "uuid";
 import "./App.css";
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
 	const handleSubmit = (values, { resetForm }) => {
 		dispatch(
 			addContact({
-				id: newId + "-" + Date.now(),
+				id: uuidv4(),
 				name: values.name,
 				number: values.number,
 			})
